@@ -7,6 +7,7 @@ using System.Threading;
 using System.Media;
 using System.IO;
 
+
 namespace Snake
 {
     struct Position
@@ -148,6 +149,9 @@ namespace Snake
                     byte up = 3;
                     int lastFoodTime = 0;
                     int foodDissapearTime = 12000;
+                    //----------------------------------------Life-----------------------------------
+                    int life = 3;
+                    
                     //JASMINNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNnnn
                     int supriseFoodDissapearTime = 3390;
                     int negativePoints = 0;
@@ -161,6 +165,8 @@ namespace Snake
                     }
                     Scoreboard.WriteAt("Your Current Score", 0, 1);
                     Scoreboard.WriteScore(_scorecount, 0, 2);
+                    Scoreboard.WriteAt("Your Remains Life", 0, 3);
+                    Scoreboard.WriteAt(life.ToString(), 0, 4);
 
 
                     //Array which is a linear data structure is used 
@@ -293,35 +299,59 @@ namespace Snake
                             player1.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "/die.wav";
                             player1.PlaySync();
 
+                            //----------------------------------------life---------------------------------------
+                            //If user still have life
+                            if(life > 0)
+                            {
+                                //minus 1 life
+                                life -= 1;
+                                Scoreboard.WriteAt(life.ToString(), 0, 4);
+
+                                //minus 1 score
+                                _scorecount -= 1;
+                                Scoreboard.WriteScore(_scorecount, 0, 2);
+
+                                Position obstacle = new Position();
+                                //generate new position for the obstacles
+                                obstacle = CreateObstacle(food, obstacle, randomNumbersGenerator, snakeElements, obstacles);
+
+                                if(player1.IsLoadCompleted == true)
+                                {
+                                    player.Play();
+                                }
+                            }
                             //displayed when game over
                             //------------------------------------------------GameOver----------------------------------------------------
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            string gameover = "Game over!";
-                            string points = "Your points are: ";
-                            string exit = "Press Enter to exit.";
-
-                            int height = decimal.ToInt32((Console.WindowHeight) / 2) - 1;
-                            int width = decimal.ToInt32((Console.WindowWidth - gameover.Length) / 2);
-
-                            int userPoints = (snakeElements.Count - 6) * 100 - negativePoints;
-                            //if (userPoints < 0) userPoints = 0;
-                            userPoints = Math.Max(userPoints, 0);
-
-                            //print Game over and points
-                            height = PrintAtCenter(gameover, height);
-                            height = PrintAtCenter(points + userPoints, height);
-
-                            //------------------------------------------------Exit Game----------------------------------------------------
-
-                            //Print Exit Game
-                            height = PrintAtCenter(exit, height);
-
-                            //Make a loop until user press enter key to exit the game
-                            while (Console.ReadKey().Key != ConsoleKey.Enter)
+                            else
                             {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                string gameover = "Game over!";
+                                string points = "Your points are: ";
+                                string exit = "Press Enter to exit.";
+
+                                int height = decimal.ToInt32((Console.WindowHeight) / 2) - 1;
+                                int width = decimal.ToInt32((Console.WindowWidth - gameover.Length) / 2);
+
+                                int userPoints = (snakeElements.Count - 6) * 100 - negativePoints;
+                                //if (userPoints < 0) userPoints = 0;
+                                userPoints = Math.Max(userPoints, 0);
+
+                                //print Game over and points
+                                height = PrintAtCenter(gameover, height);
+                                height = PrintAtCenter(points + userPoints, height);
+
+                                //------------------------------------------------Exit Game----------------------------------------------------
+
+                                //Print Exit Game
                                 height = PrintAtCenter(exit, height);
+
+                                //Make a loop until user press enter key to exit the game
+                                while (Console.ReadKey().Key != ConsoleKey.Enter)
+                                {
+                                    height = PrintAtCenter(exit, height);
+                                }
+                                Environment.Exit(0);
                             }
-                            Environment.Exit(0);
                         }
 
                         //Set the position of the snake
