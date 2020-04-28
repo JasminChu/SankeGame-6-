@@ -299,9 +299,12 @@ namespace Snake
                             player1.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "/die.wav";
                             player1.PlaySync();
 
+                            //Remove the obstacles which the snake has eaten
+                            obstacles.Remove(snakeNewHead);
+
                             //----------------------------------------life---------------------------------------
                             //If user still have life
-                            if(life > 0)
+                            if (life > 0)
                             {
                                 //minus 1 life
                                 life -= 1;
