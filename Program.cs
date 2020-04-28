@@ -109,34 +109,10 @@ namespace Snake
         }
 
 
-        //JASMINNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
-        static int index = 0;
 
 
         static void Main(string[] args)
         {
-
-            //JASMINNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
-            Console.WriteLine("WELCOME TO SNAKE GAME!");
-            Console.WriteLine("Press Enter Key to Continue!");
-            Console.Read();
-
-            List<string> menuItems = new List<string>()
-            {
-                "Start Game",
-                "Help",
-                "Exit"
-            };
-
-            Console.CursorVisible = false;
-            while (true)
-            {
-                string selectedMenuItem = drawMenu(menuItems);
-                if (selectedMenuItem == "Start Game")
-                {
-                    Console.Clear();
-                    Console.WriteLine("HELLO!"); Console.Read();
-                    //JASMINNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
 
                     //backgorund sound is played when the player start the game
                     SoundPlayer player = new SoundPlayer();
@@ -500,74 +476,9 @@ namespace Snake
 
                         Thread.Sleep((int)sleepTime);
                     }
-                }
-                //JASMINNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
-                else if (selectedMenuItem == "Help")
-                {
-                    Console.WriteLine("WELCOME TO SNAKE GAME!");
-                    Console.WriteLine("Keyboard Up = Up");
-                    Console.WriteLine("Keyboard Down = Down");
-                    Console.WriteLine("Keyboard Right = Right");
-                    Console.WriteLine("Keyboard Left = Left");
-                    Console.WriteLine("Press Enter Key to Continue!");
-                    Console.Read();
-                }
-
-                //JASMINNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
-                else if (selectedMenuItem == "Exit")
-                {
-                    Environment.Exit(0);
-                }
+                
+               
             }
         }
-
-        //JASMINNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
-        static string drawMenu(List<string> items)
-        {
-            for (int i = 0; i < items.Count; i++)
-            {
-                if (i == index)
-                {
-                    Console.BackgroundColor = ConsoleColor.Gray;
-                    Console.ForegroundColor = ConsoleColor.Black;
-                    Console.WriteLine(items[i]);
-                }
-                else
-                {
-                    Console.WriteLine(items[i]);
-                }
-                Console.ResetColor();
-            }
-
-            ConsoleKeyInfo ckey = Console.ReadKey();
-
-            if (ckey.Key == ConsoleKey.DownArrow)
-            {
-                if (index == items.Count - 1)
-                {
-                    //index = 0; //Remove the comment to return to the topmost item in the list
-                }
-                else { index++; }
-            }
-            else if (ckey.Key == ConsoleKey.UpArrow)
-            {
-                if (index <= 0)
-                {
-                    //index = menuItem.Count - 1; //Remove the comment to return to the item in the bottom of the list
-                }
-                else { index--; }
-            }
-            else if (ckey.Key == ConsoleKey.Enter)
-            {
-                return items[index];
-            }
-            else
-            {
-                return "";
-            }
-
-            Console.Clear();
-            return "";
-        }
-    }
+    
 }
