@@ -261,19 +261,20 @@ namespace Snake
                         Position snakeNewHead = new Position(snakeHead.row + nextDirection.row,
                             snakeHead.col + nextDirection.col);
 
-                        if (snakeNewHead.col < 0) snakeNewHead.col = Console.WindowWidth - 1;
-                        if (snakeNewHead.row < 0) snakeNewHead.row = Console.WindowHeight - 1;
-                        if (snakeNewHead.row >= Console.WindowHeight) snakeNewHead.row = 0;
-                        if (snakeNewHead.col >= Console.WindowWidth) snakeNewHead.col = 0;
-
+                       //Game over when snake hits the console window
                         //the game will over if the snake eat its body OR eat the obstacles
                         //Stack which is a linear data structure is used
-                        if (snakeElements.Contains(snakeNewHead) || obstacles.Contains(snakeNewHead))
+                        if (snakeElements.Contains(snakeNewHead) || obstacles.Contains(snakeNewHead) 
+                        || (snakeNewHead.row >= Console.WindowHeight) || (snakeNewHead.col >= Console.WindowWidth) 
+                        || (snakeNewHead.col < 0) || (snakeNewHead.row < 0))
                         {
-                            //Game over sound will display if the snake die
-                            SoundPlayer player1 = new SoundPlayer();
+                        //Game over sound will display if the snake die
+                        SoundPlayer player1 = new SoundPlayer();
                             player1.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "/die.wav";
                             player1.PlaySync();
+                        direction = right;
+                        snakeNewHead.row = 5;
+                        snakeNewHead.col = 0;
 
                             //Remove the obstacles which the snake has eaten
                             obstacles.Remove(snakeNewHead);
